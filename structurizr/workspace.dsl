@@ -1,24 +1,28 @@
 workspace {
 
     model {
-        user = person "User"
-        softwareSystem = softwareSystem "Software System" {
-            webapp = container "Web Application" {
-                user -> this "Uses"
+        user = person "Customer"
+        vm = softwareSystem "Vending Machine" {
+            pos = container "Point of Sale" "Used to buy good from the VM" "Android App" {
+                user -> this "buys"
             }
-            container "Database" {
-                webapp -> this "Reads from and writes to"
+            integrator = container "Integrator" "Integration between VM and PinPad for payments" "blackbox" {
+                pos -> this "ask to confirm payment"
+            }
+            pinpad = container "Payment Equipment" "Equipment used by the user to pay" "blackbox" {
+                this -> integrator "confirms the payment"
+                user -> this "pay using credit or debit"
             }
         }
     }
 
     views {
-        systemContext softwareSystem {
+        systemContext vm {
             include *
             autolayout lr
         }
 
-        container softwareSystem {
+        container vm {
             include *
             autolayout lr
         }
