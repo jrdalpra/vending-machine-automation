@@ -1,0 +1,10 @@
+version: "3"
+
+
+services:
+  diagrams:
+    image: structurizr/lite:3047
+    volumes:
+    - ./structurizr:/usr/local/structurizr
+    ports:
+    - 9090:8080
